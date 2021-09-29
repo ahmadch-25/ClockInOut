@@ -1,0 +1,81 @@
+<div class="employe">
+    <a class="btn btn-success" href="{% url 'addemployee' %}" style="float: right;">Add</a>
+    <h2 class="card-title">Employees</h2>
+    <div class="records-table" data-table="employees" data-orderBy="id" data-orderType="DESC">
+        <table class="table">
+            <thead class="thead-light">
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col" data-orderBy="username" class="sortable sort_both">Username</th>
+                <th scope="col" data-orderBy="first_name" class="sortable sort_both">First Name</th>
+                <th scope="col" data-orderBy="last_name" class="sortable sort_both">Last Name</th>
+                <th scope="col">Actions</th>
+            </tr>
+            </thead>
+            <tbody class="table-body">
+            {% for employe in page_obj %}
+                <tr>
+                    <th scope="row"><?= $num + 1 ?></th>
+                    <td><a href="{{ employe.user.username }}>">{{ employe.user.username }}</a></td>
+                    <td>{{ employe.user.first_name }}</td>
+                    <td>{{ employe.user.last_name }}</td>
+                    <td>
+                        <a href="{{ employe.user.username }}">
+                            <a class="btn btn-sm btn-warning" href="editemploye/{{ employe.id }}">Edit</a>
+                        </a>
+                        <a class="delete" data-id="{{ employe.user.username }}">
+                            <a class="btn btn-sm btn-danger " id="delete" href="deleteemploye/{{ employe.user.id }}">Delete</a>
+                        </a>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+        <nav aria-label="Page navigation example">
+            <ul class="pagination justify-content-center">
+                {% if page_obj.has_previous %}
+                    <li class="page-item page-prev">
+
+                        <a class="page-link" href="?page={{ page_obj.previous_page_number }}">Previous</a>
+                    </li>
+                    <li  class="page-item page-num">
+                    <a class="page-link" href="javascript:void(0)">{{ page_obj.number }}</a></li>
+                    <li class="page-item page-prev">
+                        <a class="page-link" href="?page=1">Next</a>
+                    </li>
+
+                {% endif %}
+
+                {#        <span class="current">#}
+                {#            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.#}
+                {#        </span>#}
+
+                {% if page_obj.has_next %}
+                    <li class="page-item page-prev">
+                        <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">Previous</a>
+                    </li>
+                     <li  class="page-item page-num">
+                    <a class="page-link" href="javascript:void(0)">{{ page_obj.number }}</a></li>
+                    <li class="page-item page-prev">
+                        <a class="page-link" href="?page={{ page_obj.next_page_number }}">Next</a>
+                    </li>
+                {% endif %}
+            </ul>
+        </nav>
+
+
+    </div>
+</div>
+<script>
+    let removeButton = document.getElementById('delete');
+removeButton.onclick = function(e) {
+    let accepted = confirm("Are you sure you want to delete this?");
+    if (accepted) {
+
+    }
+    else {
+        e.preventDefault();
+    }
+}
+</script>

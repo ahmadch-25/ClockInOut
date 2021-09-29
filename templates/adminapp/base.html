@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>{% block title %}Admin - Clock In Out{% endblock %}</title>
+    <link rel="stylesheet" type="text/css" href="{% static "css/bootstrap.min.css" %}">
+    <script src="{% static "js/jquery-3.2.1.min.js" %}"></script>
+    <script src="{% static "js/popper.min.js" %}"></script>
+    <script src="{% static "js/bootstrap.min.js" %}"></script>
+    <script src="{% static "js/main.js" %}"></script>
+    <style>
+        .sortable {
+            cursor                : pointer;
+            -webkit-touch-callout : none; /* iOS Safari */
+            -webkit-user-select   : none; /* Safari */
+            -khtml-user-select    : none; /* Konqueror HTML */
+            -moz-user-select      : none; /* Firefox */
+            -ms-user-select       : none; /* Internet Explorer/Edge */
+            user-select           : none;
+        }
+
+        .sort_both {
+            background : url({% static 'images/sort_both.png' %}) #e9ecef no-repeat center right;
+        }
+
+        .sort_asc {
+            background : url({% static 'images/sort_asc.png' %}) #e9ecef no-repeat center right;
+        }
+
+        .sort_desc {
+            background : url({% static 'images/sort_desc.png' %}) #e9ecef no-repeat center right;
+        }
+.employe{
+    margin-left: 5%;
+    margin-right: 5%;
+}
+    </style>
+
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="{% url 'adminapp-panel' %}">{{ user.username }}</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item ">
+                <a class="nav-link active" href="{% url 'adminapp-panel' %}">Employees</a>
+            </li>
+
+            <li class="nav-item ">
+                <a class="nav-link" href="{% url 'adminettings' %}">Settings</a>
+            </li>
+
+
+        </ul>
+        <div class="form-inline my-2 my-lg-0 nav-item">
+            <a class="logout" href="logoutadmin">Logout</a>
+        </div>
+    </div>
+</nav>
+
+{% block content %}
+{% endblock content %}
+
+</body>
+</html>

@@ -1,0 +1,32 @@
+{% extends 'adminapp/base.html' %}
+{% load static %}
+{% block title %}Edit Employee{% endblock %}
+{% load crispy_forms_tags %}
+{% block content %}
+
+
+    <style media="screen">
+    input[type=text], select,input[type=number] ,input[type=password], textarea{
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+  }
+  #hint_id_username{
+      display: none;
+  }
+
+    </style>
+<h2 class="card-title" style="margin-left: 20%">Edit Employee</h2>
+    <div>
+  <form method="post"  enctype="multipart/form-data"  style="margin-left:200px;margin-right:200px;">
+      {% csrf_token %}
+        {{ userform | crispy}}
+    <input type="submit" value="Submit" class="btn btn-primary">
+  </form>
+</div>
+
+{% endblock content %}

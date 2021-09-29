@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% block title %}User Setting{% endblock title %}
+{% block content %}
+    <div class="settingdiv">
+<h2 class="card-title">Settings</h2>
+
+     {% if messages %}
+     <div class="alert alert-success" id="messagediv" role="alert">
+            <ul class="messages">
+                {% for message in messages %}
+                <li  {% if message.tags %} class=" {{ message.tags }} " {% endif %}> {{ message }} </li>
+                {% endfor %}
+            </ul>
+     </div>
+    {% endif %}
+
+    <form autocomplete="off" action="" method="post">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="username">Username</label>
+            <input type="text" class="form-control" name="username" id="username" value="{{ user.username }}" required placeholder="Username">
+        </div>
+        <div class="form-group">
+            <label for="password">Password
+                <small class="text-muted">(Optional)</small>
+            </label>
+            <input type="text" class="form-control" name="password" id="password" value="" placeholder="Password">
+        </div>
+        <button type="submit" value="1" name="setting_post" class="btn btn-primary">Submit</button>
+    </form>
+    </div>
+    <style>
+    .settingdiv{
+        margin-left: 5%;
+        margin-right: 5%;
+    }
+    </style>
+{% endblock content %}

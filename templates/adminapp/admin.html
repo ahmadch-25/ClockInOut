@@ -1,0 +1,25 @@
+{% extends 'adminapp/base.html' %}
+{% load static %}
+{% block title %}Dashboard{% endblock %}
+{% block content %}
+
+ {% if messages %}
+         <div class="alert alert-success" id="messagediv" role="alert">
+            <ul class="messages">
+                {% for message in messages %}
+                <li  {% if message.tags %} class=" {{ message.tags }} " {% endif %}> {{ message }} </li>
+                {% endfor %}
+            </ul>
+     </div>
+ {% endif %}
+
+
+
+{% include 'adminapp/employee.html' %}
+
+    <script>
+    setTimeout(function() {
+    $('#messagediv').fadeOut('slow');
+}, 3000);
+    </script>
+{% endblock content %}

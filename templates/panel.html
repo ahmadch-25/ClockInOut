@@ -1,0 +1,92 @@
+{% extends 'base.html' %}
+{% block title %}User Dashboard{% endblock title %}
+{% block content %}
+<div class="statusdiv">
+    <h2 class="card-title">Status</h2>
+
+    <div class="alert-success alert info-msg"></div>
+    <div class="alert-danger alert info-msg"></div>
+
+    <div id="result">
+        <div class="alert alert-success" role="alert">
+            <strong>Last record:</strong> <br>
+            <span id="starttime">Started at : {{ started_at }} </span><br>
+            <span id="endtime">Ended at : {{ ended_at }}</span>
+        </div>
+    </div>
+
+    <button type="button" id="clock_in" class="btn btn-success btn-lg">CLOCK IN</button>
+    <button type="button" id="clock_out" class="btn btn-secondary btn-lg">CLOCK OUT</button>
+    </div>
+    <style>
+        .info-msg {
+            display : none;
+
+        }
+        .statusdiv{
+            margin-left: 5%;
+            margin-right: 5%;
+        }
+    </style>
+    <script>
+
+        var $alertSuccess = $('.alert-success.alert.info-msg');
+        var $alertDanger  = $('.alert-danger.alert.info-msg');
+
+        //Employee Clock In action
+        $('#clock_in').click(function (e) {
+            e.preventDefault();
+            clockInOutPost('clock_in');
+        });
+
+        //Employee Clock Out action
+        $('#clock_out').click(function (e) {
+            e.preventDefault();
+            clockInOutPost('clock_out');
+        });
+
+
+        function clockInOutPost(type) {
+            $('#clock_in , #clock_out').attr('disabled', 'disabled');
+            $alertSuccess.hide();
+            $alertDanger.hide();
+            $.ajax({
+                url     : "{% url 'ajaxrequest' %}",
+                dataType: "json",
+                method  : "POST",
+                cache   : false,
+                data    : {
+                    userLocalTime: new Date().toLocaleString(),
+                    csrfmiddlewaretoken: '{{ csrf_token }}',
+                    [type]       : true,
+                },
+                success : function (response) {
+                  if (response.success) {
+                        showAlert(response.message.join("<br>"), 'success');
+                        if(response.clock_in) {
+                            $("#starttime").text("Started at : " + response.date);
+                             $("#endtime").text("Ended at : " );
+                        }
+                        else {
+                            $("#endtime").text("Ended at : " + response.date);
+                        }
+                    } else {
+                        showAlert(response.message.join("<br>"), 'error');
+                    }
+                },
+                error   : function () {
+                    showAlert("An error has been occurred. Please try it later.", 'error');
+                },
+                complete: function (response) {
+                    $('#clock_in , #clock_out').removeAttr('disabled');
+                }
+            });
+        }
+
+        function showAlert(message, type) {
+            type       = type || 'success';
+            var $alert = type == 'success' ? $alertSuccess : (type == 'error' ? $alertDanger : '');
+            $alert.fadeIn().html(message);
+        }
+    </script>
+{% endblock content %}
